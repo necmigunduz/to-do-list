@@ -1,14 +1,23 @@
+import { displayNav } from "./structure";
+import project from './project';
+import { Project } from "./project";
+import {  } from "./";
 
-class Project {
-  constructor(name) {
-    this.name = name;
-    this.id = name.toLowerCase();
-    this.todos = [];
-  };  
-};
+class Todo {
+  constructor(title, date, description, priority, project) {
+    this.title = title;
+    this.date = date;
+    this.description = description;
+    this.priority = priority;
+    this.project = project;
+    this.id = Date.now().toString();
+    this.status = false;
+  }
+}
 
 const container = document.getElementById('content');
-const predefinedProjects = [new Project('Inbox'), new Project('Today'), new Project('Tomorrow')];
+const mainContent = document.querySelector('.main-content')
+const predefinedProjects = [project.initProject('Yesterday'), project.initProject('Today'), project.initProject('Tomorrow')];
 
 function displayTodos() {
   const selectedProjectId = localStorage.getItem('selectedProjectId');
@@ -184,7 +193,7 @@ function displayProjectForm() {
   btnContainer.appendChild(cancelBtn);
   cancelBtn.addEventListener('click', start);
   submitBtn.addEventListener('click', () => {
-    createProject(nameInput);
+    project.createProject(nameInput);
   });
 }
 
@@ -304,6 +313,7 @@ function displayProjects() {
 
 function start() {
   clearContent(container);
+  displayNav();
   const mainContent = container.appendChild(document.createElement('div'));
   mainContent.setAttribute('class', 'main-content');
   const projectSection = mainContent.appendChild(document.createElement('section'));
@@ -344,4 +354,4 @@ function start() {
 };
 
 
-export {start};
+export {start, getProjects};
