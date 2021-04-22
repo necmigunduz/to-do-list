@@ -1,4 +1,7 @@
 @import "bootstrap";
+body {
+  
+}
 
 #content {
   height: 100vh;
@@ -26,8 +29,19 @@ footer {
   grid-template-rows: 90vh;
 }
 
+.remove-project-btn {
+  position: fixed;
+  bottom: 7vh;
+  right: 35px;
+}
+
+.project-container {
+  height: 82vh;
+}
+
 .project-section {
   background: #ddd;
+  height: 100%;
 }
 
 .btn,
