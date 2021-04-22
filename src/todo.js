@@ -10,7 +10,19 @@ class Todo {
       this.id = Date.now().toString();
       this.status = false;
     };
+    updateTodo(title, date, description, priority){
+      this.title = title;
+      this.date = date;
+      this.description = description;
+      this.priority = priority;
+      return this;
+    }
 };
+
+function removeTodo(projects, project, todoId) {
+  project.todos = project.todos.filter((x) => x.id !== todoId);
+  localStorage.toDoProjects = JSON.stringify(projects);
+}
 
 // const todoModule = (() => {
     function createTodo (title,date,description,priority,project){
@@ -27,4 +39,4 @@ class Todo {
 
 
 // export default todoModule;
-export { Todo, createTodo };
+export { Todo, createTodo, removeTodo };

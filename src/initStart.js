@@ -1,7 +1,7 @@
 import { displayNav } from './structure';
 import project from './project';
-import { Project } from './project';
-import { Todo, createTodo } from './todo';
+import { Project, removeProject} from './project';
+import { Todo, createTodo, removeTodo } from './todo';
 import todo from './todo';
 
 
@@ -66,23 +66,16 @@ function displayTodos() {
         const updateTodoBtn = buttonsContainer.insertBefore(document.createElement('button'), cancelTodoButton);
         updateTodoBtn.setAttribute('class', 'btn btn-info');
         updateTodoBtn.innerHTML = 'Save Changes';
-        // updateTodoBtn.addEventListener('click', ()=>{
-        //   let title = document.querySelector('.todo-title').value;
-        //   let date = document.querySelector('.todo-date').value;
-        //   let description = document.querySelector('.todo-description').value;
-        //   let priority = document.querySelector('.priority-select').value;
-        //   item = item.updateTodo(title, date, description, priority);
-        //   console.log(item)
-        //   localStorage.toDoProjects = JSON.stringify(projects);
-        //   console.log(projects)
-        //   // console.log(item instanceof Todo)
-        //   // console.log(item)
-        //   // updateTodo();
-        //   // console.log(project.todos);
-        //   // console.log(item)
-        //   displayTodos()
+        updateTodoBtn.addEventListener('click', ()=>{
+          let title = document.querySelector('.todo-title').value;
+          let date = document.querySelector('.todo-date').value;
+          let description = document.querySelector('.todo-description').value;
+          let priority = document.querySelector('.priority-select').value;
+          item = item.updateTodo(title, date, description, priority);
+          localStorage.toDoProjects = JSON.stringify(projects);
+          displayTodos()
 
-        // })
+        })
       });
 
       const removeBtn = span.appendChild(document.createElement('button'));
