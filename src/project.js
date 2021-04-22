@@ -1,8 +1,6 @@
 
 import { getProjects, start } from "./initStart";
 
-
-
 class Project {
   constructor(name) {
     this.name = name;
@@ -32,8 +30,9 @@ const projectModule = (()=>{
   function initProject(name){
     new Project(name)
   }
+
   return {createProject, initProject}
 })()
 
-export default projectModule
-export{Project, projectModule}
+export default projectModule;
+export{Project, projectModule};

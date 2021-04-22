@@ -1,23 +1,13 @@
-import { displayNav } from "./structure";
+import { displayNav } from './structure';
 import project from './project';
-import { Project } from "./project";
-import {  } from "./";
+import { Project } from './project';
+import { Todo, createTodo } from './todo';
+import todo from './todo';
 
-class Todo {
-  constructor(title, date, description, priority, project) {
-    this.title = title;
-    this.date = date;
-    this.description = description;
-    this.priority = priority;
-    this.project = project;
-    this.id = Date.now().toString();
-    this.status = false;
-  }
-}
 
 const container = document.getElementById('content');
 const mainContent = document.querySelector('.main-content')
-const predefinedProjects = [project.initProject('Yesterday'), project.initProject('Today'), project.initProject('Tomorrow')];
+const predefinedProjects = [new Project('Yesterday'), new Project('Today'), new Project('Tomorrow')];
 
 function displayTodos() {
   const selectedProjectId = localStorage.getItem('selectedProjectId');
