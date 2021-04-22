@@ -1,16 +1,11 @@
-import _, { startCase } from 'lodash';
 import './style.scss';
-import {displayNav, displayFooter} from './structure';
-import {start} from './initStart';
+import { displayNav, displayFooter } from './structure';
+import { start } from './initStart';
 
-
-
-function initializer(){
+function initializer() {
   displayNav();
-  start()
+  start();
   displayFooter();
 }
 
 initializer();
-
-

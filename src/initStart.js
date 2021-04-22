@@ -1,134 +1,22 @@
 import { displayNav } from './structure';
-import project from './project';
-import { Project, removeProject} from './project';
-import { Todo, createTodo, removeTodo } from './todo';
-import todo from './todo';
-
+// eslint-disable-next-line import/no-cycle
+import project, { Project, removeProject } from './project';
+// eslint-disable-next-line import/no-cycle
+import {
+  Todo, createTodo, removeTodo, updateStatus,
+} from './todo';
 
 const container = document.getElementById('content');
-const mainContent = document.querySelector('.main-content')
+
 const predefinedProjects = [new Project('Yesterday'), new Project('Today'), new Project('Tomorrow')];
-
-function displayTodos() {
-  const selectedProjectId = localStorage.getItem('selectedProjectId');
-  const projects = getProjects();
-  let project = projects.find((element) => element.id === selectedProjectId);
-  const projectContainer = document.querySelector('.project-container');
-  clearContent(projectContainer);
-  if (project) {
-
-    const projectDetails = projectContainer.appendChild(document.createElement('p'));
-    projectDetails.setAttribute('class', 'd-flex justify-content-around active');
-
-    const projectName = projectDetails.appendChild(document.createElement('span'));
-    projectName.innerHTML = project.name;
-    projectName.setAttribute('class', '');
-
-    project.todos.forEach((item) => {
-      const itemCont = projectContainer.appendChild(document.createElement('div'));
-      itemCont.setAttribute('class', `d-flex justify-content-between ${item.id}`);
-      const pTag = itemCont.appendChild(document.createElement('p'));
-
-      const todoCheckBox = pTag.appendChild(document.createElement('input'));
-      todoCheckBox.setAttribute('class', 'd-inline-block mx-3 ');
-      todoCheckBox.setAttribute('type', 'checkbox');
-      todoCheckBox.setAttribute('id', item.id);
-
-      const todoLabel = pTag.appendChild(document.createElement('label'));
-      todoLabel.setAttribute('class', `d-inline-block `);
-      // todoLabel.setAttribute('for', item.id);
-      todoLabel.innerHTML = item.title;
-
-      const span = itemCont.appendChild(document.createElement('span'));
-      span.setAttribute('class', 'd-inline-block');
-      const editBtn = span.appendChild(document.createElement('button'));
-      editBtn.setAttribute('class', 'bg-info btn mr-2');
-      editBtn.innerHTML = 'EditTodo';
-      editBtn.addEventListener('click', () => {
-        clearContent(projectContainer);
-        displayTodoForm();
-        document.querySelector('.todo-title').value = item.title;
-        document.querySelector('.todo-date').value = item.date;
-        document.querySelector('.priority-select').value = item.priority;
-        document.querySelector('.todo-description').value = item.description;
-        let projectSelect = document.querySelector('.project-select');
-        let projectSelectLabel = document.querySelector('.project-select-label');
-        let todoForm = document.querySelector('.todo-form')
-        todoForm.removeChild(projectSelect);
-        todoForm.removeChild(projectSelectLabel);
-
-        let buttonsContainer = document.querySelector('.todo-buttons');
-        let createButton = document.querySelector('.create-todo');
-        buttonsContainer.removeChild(createButton);
-
-        let cancelTodoButton = document.querySelector('.cancel-todo');
-
-        const updateTodoBtn = buttonsContainer.insertBefore(document.createElement('button'), cancelTodoButton);
-        updateTodoBtn.setAttribute('class', 'btn btn-info');
-        updateTodoBtn.innerHTML = 'Save Changes';
-        updateTodoBtn.addEventListener('click', ()=>{
-          let title = document.querySelector('.todo-title').value;
-          let date = document.querySelector('.todo-date').value;
-          let description = document.querySelector('.todo-description').value;
-          let priority = document.querySelector('.priority-select').value;
-          item = item.updateTodo(title, date, description, priority);
-          localStorage.toDoProjects = JSON.stringify(projects);
-          displayTodos()
-
-        })
-      });
-
-      const removeBtn = span.appendChild(document.createElement('button'));
-      removeBtn.setAttribute('class', 'bg-danger btn');
-      removeBtn.innerHTML = 'Remove';
-      removeBtn.addEventListener('click', (e) => {
-        projectContainer.removeChild(e.target.parentNode.parentNode);
-        removeTodo(projects, project, item.id);
-      });
-
-      if (item.status) {
-        todoCheckBox.checked = true;
-        todoLabel.classList.add('done-task');
-      }
-
-      todoCheckBox.addEventListener('click', () => {
-        if (todoCheckBox.checked) {
-          todoLabel.classList.add('done-task');
-        } else {
-          todoLabel.classList.remove('done-task');
-        }
-        updateStatus(projects, project, item.id);
-      });
-    });
-
-    const deleteProjectBtn = projectContainer.appendChild(document.createElement('button'));
-    deleteProjectBtn.setAttribute('class', 'btn btn-danger remove-project-btn');
-    deleteProjectBtn.innerHTML = 'Delete Project';
-    deleteProjectBtn.addEventListener('click', () => {
-      if (project.name.toLowerCase() !== 'inbox') {
-        const removed = document.getElementById(project.id);
-
-        const projectList = document.querySelector('.project-list');
-        clearContent(projectContainer);
-        localStorage.removeItem('selectedProjectId');
-
-        projectList.removeChild(removed);
-        removeProject(projects, project);
-      } else {
-        alert('Cannot remove default project');
-      }
-    });
-  }
-}
-
 function getProjects() {
   if (localStorage.getItem('toDoProjects')) {
     const projects = JSON.parse(localStorage.getItem('toDoProjects'));
     for (let i = 0; i < projects.length; i += 1) {
-      Object.setPrototypeOf(projects[i], Project.prototype)
+      Object.setPrototypeOf(projects[i], Project.prototype);
       const todoList = projects[i].todos;
       for (let i = 0; i < todoList.length; i += 1) {
-        Object.setPrototypeOf(todoList[i], Todo.prototype)
+        Object.setPrototypeOf(todoList[i], Todo.prototype);
       }
     }
     return projects;
@@ -136,48 +24,30 @@ function getProjects() {
   return predefinedProjects;
 }
 
-function displayProjectForm() {
-  const formContainer = document.querySelector('.form-container');
-  clearContent(formContainer);
+function clearContent(element) {
+  element.textContent = '';
+}
 
-  const projectForm = document.createElement('form');
+function displayProjects() {
+  const projectsList = document.querySelector('.project-list');
+  clearContent(projectsList);
+  let selectedProjectId = localStorage.getItem('selectedProjectId');
+  const projects = getProjects();
 
-  projectForm.setAttribute('class', 'project-form mx-auto mt-5');
+  projects.forEach((project) => {
+    const projectItem = projectsList.appendChild(document.createElement('h6'));
+    projectItem.textContent = project.name;
+    projectItem.setAttribute('id', project.id);
+    projectItem.addEventListener('click', () => {
+      selectedProjectId = project.id;
+      localStorage.selectedProjectId = project.id;
 
-  const nameLabel = document.createElement('label');
-  nameLabel.setAttribute('class', 'form-label');
-  nameLabel.innerHTML = 'Name';
-
-  const nameInput = document.createElement('input');
-  nameInput.setAttribute('class', 'form-control');
-  nameInput.setAttribute('type', 'text');
-  nameInput.setAttribute('id', 'project-name');
-  nameInput.setAttribute('placeholder', '   Project name');
-
-  const btnContainer = document.createElement('div');
-
-  btnContainer.setAttribute('class', 'btn-container d-flex justify-content-between mx-auto');
-  const submitBtn = document.createElement('button');
-
-  submitBtn.setAttribute('class', 'btn text-light bg-dark mt-2 mr-0 submit-btn');
-  submitBtn.innerHTML = 'Submit';
-
-  const cancelBtn = document.createElement('button');
-
-  cancelBtn.setAttribute('class', 'btn text-light bg-danger mt-2 mr-0 cancel-btn ');
-  cancelBtn.innerHTML = 'Cancel';
-
-  formContainer.appendChild(projectForm);
-  projectForm.appendChild(nameLabel);
-  projectForm.appendChild(nameInput);
-  formContainer.appendChild(btnContainer);
-
-  btnContainer.appendChild(submitBtn);
-  btnContainer.appendChild(cancelBtn);
-  cancelBtn.addEventListener('click', start);
-  submitBtn.addEventListener('click', () => {
-    project.createProject(nameInput);
+      // eslint-disable-next-line no-use-before-define
+      displayTodos(selectedProjectId);
+    });
   });
+  // eslint-disable-next-line no-use-before-define
+  displayTodos(selectedProjectId);
 }
 
 function displayTodoForm() {
@@ -268,32 +138,115 @@ function displayTodoForm() {
   cancelTodoBtn.addEventListener('click', displayProjects);
 }
 
-function clearContent(element) {
-  element.textContent = '';
-}
-
-function displayProjects() {
-  const projectsList = document.querySelector('.project-list');
-  clearContent(projectsList);
-  let selectedProjectId = localStorage.getItem('selectedProjectId');
+function displayTodos() {
+  const selectedProjectId = localStorage.getItem('selectedProjectId');
   const projects = getProjects();
+  const project = projects.find((element) => element.id === selectedProjectId);
+  const projectContainer = document.querySelector('.project-container');
+  clearContent(projectContainer);
+  if (project) {
+    const projectDetails = projectContainer.appendChild(document.createElement('p'));
+    projectDetails.setAttribute('class', 'd-flex justify-content-around active');
 
-  projects.forEach((project) => {
-    const projectItem = projectsList.appendChild(document.createElement('h6'));
-    projectItem.textContent = project.name;
-    projectItem.setAttribute('id', project.id);
-    projectItem.addEventListener('click', () => {
-      selectedProjectId = project.id;
-      localStorage.selectedProjectId = project.id;
+    const projectName = projectDetails.appendChild(document.createElement('span'));
+    projectName.innerHTML = project.name;
+    projectName.setAttribute('class', '');
 
-      // eslint-disable-next-line no-use-before-define
-      displayTodos(selectedProjectId);
+    project.todos.forEach((item) => {
+      const itemCont = projectContainer.appendChild(document.createElement('div'));
+      itemCont.setAttribute('class', `d-flex justify-content-between ${item.id}`);
+      const pTag = itemCont.appendChild(document.createElement('p'));
+
+      const todoCheckBox = pTag.appendChild(document.createElement('input'));
+      todoCheckBox.setAttribute('class', 'd-inline-block mx-3 ');
+      todoCheckBox.setAttribute('type', 'checkbox');
+      todoCheckBox.setAttribute('id', item.id);
+
+      const todoLabel = pTag.appendChild(document.createElement('label'));
+      todoLabel.setAttribute('class', 'd-inline-block ');
+      // todoLabel.setAttribute('for', item.id);
+      todoLabel.innerHTML = item.title;
+
+      const span = itemCont.appendChild(document.createElement('span'));
+      span.setAttribute('class', 'd-inline-block');
+      const editBtn = span.appendChild(document.createElement('button'));
+      editBtn.setAttribute('class', 'bg-info btn mr-2');
+      editBtn.innerHTML = 'EditTodo';
+      editBtn.addEventListener('click', () => {
+        clearContent(projectContainer);
+        displayTodoForm();
+        document.querySelector('.todo-title').value = item.title;
+        document.querySelector('.todo-date').value = item.date;
+        document.querySelector('.priority-select').value = item.priority;
+        document.querySelector('.todo-description').value = item.description;
+        const projectSelect = document.querySelector('.project-select');
+        const projectSelectLabel = document.querySelector('.project-select-label');
+        const todoForm = document.querySelector('.todo-form');
+        todoForm.removeChild(projectSelect);
+        todoForm.removeChild(projectSelectLabel);
+
+        const buttonsContainer = document.querySelector('.todo-buttons');
+        const createButton = document.querySelector('.create-todo');
+        buttonsContainer.removeChild(createButton);
+
+        const cancelTodoButton = document.querySelector('.cancel-todo');
+
+        const updateTodoBtn = buttonsContainer.insertBefore(document.createElement('button'), cancelTodoButton);
+        updateTodoBtn.setAttribute('class', 'btn btn-info');
+        updateTodoBtn.innerHTML = 'Save Changes';
+        updateTodoBtn.addEventListener('click', () => {
+          const title = document.querySelector('.todo-title').value;
+          const date = document.querySelector('.todo-date').value;
+          const description = document.querySelector('.todo-description').value;
+          const priority = document.querySelector('.priority-select').value;
+          item = item.updateTodo(title, date, description, priority);
+          localStorage.toDoProjects = JSON.stringify(projects);
+          displayTodos();
+        });
+      });
+
+      const removeBtn = span.appendChild(document.createElement('button'));
+      removeBtn.setAttribute('class', 'bg-danger btn');
+      removeBtn.innerHTML = 'Remove';
+      removeBtn.addEventListener('click', (e) => {
+        projectContainer.removeChild(e.target.parentNode.parentNode);
+        removeTodo(projects, project, item.id);
+      });
+
+      if (item.status) {
+        todoCheckBox.checked = true;
+        todoLabel.classList.add('done-task');
+      }
+
+      todoCheckBox.addEventListener('click', () => {
+        if (todoCheckBox.checked) {
+          todoLabel.classList.add('done-task');
+        } else {
+          todoLabel.classList.remove('done-task');
+        }
+        updateStatus(projects, project, item.id);
+      });
     });
-  });
-  // eslint-disable-next-line no-use-before-define
-  displayTodos(selectedProjectId);
-}
 
+    const deleteProjectBtn = projectContainer.appendChild(document.createElement('button'));
+    deleteProjectBtn.setAttribute('class', 'btn btn-danger remove-project-btn');
+    deleteProjectBtn.innerHTML = 'Delete Project';
+    deleteProjectBtn.addEventListener('click', () => {
+      if (project.name.toLowerCase() !== 'inbox') {
+        const removed = document.getElementById(project.id);
+
+        const projectList = document.querySelector('.project-list');
+        clearContent(projectContainer);
+        localStorage.removeItem('selectedProjectId');
+
+        projectList.removeChild(removed);
+        removeProject(projects, project);
+      } else {
+        alert('Cannot remove default project');
+      }
+    });
+  }
+}
 function start() {
   clearContent(container);
   displayNav();
@@ -334,7 +287,49 @@ function start() {
   });
 
   displayProjects();
-};
+}
+function displayProjectForm() {
+  const formContainer = document.querySelector('.form-container');
+  clearContent(formContainer);
 
+  const projectForm = document.createElement('form');
 
-export {start, getProjects};
+  projectForm.setAttribute('class', 'project-form mx-auto mt-5');
+
+  const nameLabel = document.createElement('label');
+  nameLabel.setAttribute('class', 'form-label');
+  nameLabel.innerHTML = 'Name';
+
+  const nameInput = document.createElement('input');
+  nameInput.setAttribute('class', 'form-control');
+  nameInput.setAttribute('type', 'text');
+  nameInput.setAttribute('id', 'project-name');
+  nameInput.setAttribute('placeholder', '   Project name');
+
+  const btnContainer = document.createElement('div');
+
+  btnContainer.setAttribute('class', 'btn-container d-flex justify-content-between mx-auto');
+  const submitBtn = document.createElement('button');
+
+  submitBtn.setAttribute('class', 'btn text-light bg-dark mt-2 mr-0 submit-btn');
+  submitBtn.innerHTML = 'Submit';
+
+  const cancelBtn = document.createElement('button');
+
+  cancelBtn.setAttribute('class', 'btn text-light bg-danger mt-2 mr-0 cancel-btn ');
+  cancelBtn.innerHTML = 'Cancel';
+
+  formContainer.appendChild(projectForm);
+  projectForm.appendChild(nameLabel);
+  projectForm.appendChild(nameInput);
+  formContainer.appendChild(btnContainer);
+
+  btnContainer.appendChild(submitBtn);
+  btnContainer.appendChild(cancelBtn);
+  cancelBtn.addEventListener('click', start);
+  submitBtn.addEventListener('click', () => {
+    project.createProject(nameInput);
+  });
+}
+
+export { start, getProjects };

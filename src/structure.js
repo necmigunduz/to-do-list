@@ -16,6 +16,6 @@ function displayFooter() {
   const authors = footer.appendChild(document.createElement('p'));
   authors.setAttribute('class', 'text-center text-light my-auto');
   authors.innerHTML = 'Copyright 2021  Wandji && Necmi';
-};
+}
 
-export{displayNav, displayFooter};
+export { displayNav, displayFooter };
