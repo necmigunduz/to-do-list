@@ -1,0 +1,36 @@
+@import "bootstrap";
+
+#content {
+  height: 100vh;
+}
+
+#hidden {
+  display: none;
+}
+
+footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 4vh;
+}
+
+.nav {
+  height: 7vh;
+}
+
+.main-content {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: 90vh;
+}
+
+.project-section {
+  background: #ddd;
+}
+
+.btn,
+.add-project {
+  border-radius: 5px;
+}
