@@ -53,6 +53,6 @@ Give a ⭐️ if you like this project!
 
 ## Acknowledgments
 
-- To Microverse for their `README` template.
+- To Microverse for their `README` template..
 
 ## 📝 [License](LICENSE)
