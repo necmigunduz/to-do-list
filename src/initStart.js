@@ -8,7 +8,7 @@ import {
 
 const container = document.getElementById('content');
 
-const predefinedProjects = [new Project('Yesterday'), new Project('Today'), new Project('Tomorrow')];
+const predefinedProjects = [new Project('Default'), new Project('Yesterday'), new Project('Today'), new Project('Tomorrow')];
 function getProjects() {
   if (localStorage.getItem('toDoProjects')) {
     const projects = JSON.parse(localStorage.getItem('toDoProjects'));

@@ -45,3 +45,14 @@ footer {
 .add-project {
   border-radius: 5px;
 }
+
+.project-list h6:hover {
+  background-color: #999;
+  border-radius: 10px;
+  width: 50%;
+  padding: 5px 0;
+}
+
+label {
+  display: block;
+}

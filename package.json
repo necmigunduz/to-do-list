@@ -41,8 +41,5 @@
   "dependencies": {
     "lodash": "^4.17.21"
   },
-  "main": "webpack.config.js",
-  "engine": {
-    "node": "15.8.0"
-  }
+  "main": "webpack.config.js"
 }
