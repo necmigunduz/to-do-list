@@ -18,6 +18,8 @@ A simple Todo app where a user can:
 - Webpack
 - Bootstrap
 
+## Live demo
+Follow [this link](https://sad-minsky-6d4aa8.netlify.app/) to try the app.
 ## Getting Started
 
 To set up a local copy of the project

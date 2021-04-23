@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "webpack --watch",
-    "start": "webpack serve --open",
+    "start": "node app.js",
     "build": "webpack"
   },
   "repository": {
@@ -42,7 +42,7 @@
     "lodash": "^4.17.21"
   },
   "main": "webpack.config.js",
-  "engines": {
+  "engine": {
     "node": "15.8.0"
   }
 }
