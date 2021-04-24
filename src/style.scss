@@ -1,0 +1,58 @@
+@import "bootstrap";
+
+#content {
+  height: 100vh;
+}
+
+#hidden {
+  display: none;
+}
+
+footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 4vh;
+}
+
+.nav {
+  height: 7vh;
+}
+
+.main-content {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: 90vh;
+}
+
+.remove-project-btn {
+  position: fixed;
+  bottom: 7vh;
+  right: 35px;
+}
+
+.project-container {
+  height: 82vh;
+}
+
+.project-section {
+  background: #ddd;
+  height: 107%;
+}
+
+.btn,
+.add-project {
+  border-radius: 5px;
+}
+
+.project-list h6:hover {
+  background-color: #999;
+  border-radius: 10px;
+  width: 50%;
+  padding: 5px 0;
+}
+
+label {
+  display: block;
+}
