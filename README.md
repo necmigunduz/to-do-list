@@ -3,6 +3,7 @@
 # Todo-list
 
 A simple Todo app where a user can:
+
 - Create Projects
 - Create Todos for each project
 - Edit Todos
@@ -19,7 +20,9 @@ A simple Todo app where a user can:
 - Bootstrap
 
 ## Live demo
+
 Follow [this link](https://sad-minsky-6d4aa8.netlify.app/) to try the app.
+
 ## Getting Started
 
 To set up a local copy of the project
@@ -27,6 +30,10 @@ To set up a local copy of the project
 - `git clone git@github.com:necmigunduz/to-do-list.git`
 - `cd to-do-list`
 - `npm install`
+
+To test the app
+
+- run `npm test`
 
 ## Author
 

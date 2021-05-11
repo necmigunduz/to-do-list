@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-cycle
-import { getProjects, start } from './initStart';
+import { getProjects } from './initStart';
 
 class Todo {
   constructor(title, date, description, priority, project) {
@@ -24,6 +24,7 @@ class Todo {
 function removeTodo(projects, project, todoId) {
   project.todos = project.todos.filter((x) => x.id !== todoId);
   localStorage.toDoProjects = JSON.stringify(projects);
+  return project.todos;
 }
 
 function updateStatus(projects, project, id) {
@@ -38,7 +39,6 @@ function updateStatus(projects, project, id) {
   localStorage.toDoProjects = JSON.stringify(projects);
 }
 
-// const todoModule = (() => {
 function createTodo(title, date, description, priority, project) {
   if (title !== '' && description !== '' && priority !== '' && project !== '' && date !== '') {
     const projects = getProjects();
@@ -46,12 +46,9 @@ function createTodo(title, date, description, priority, project) {
     const newTodo = new Todo(title, date, description, priority, project);
     projects[index].todos.push(newTodo);
     localStorage.toDoProjects = JSON.stringify(projects);
-    start();
   }
 }
-// })();
 
-// export default todoModule;
 export {
   Todo, createTodo, removeTodo, updateStatus,
 };

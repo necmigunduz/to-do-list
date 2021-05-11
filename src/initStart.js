@@ -9,6 +9,7 @@ import {
 const container = document.getElementById('content');
 
 const predefinedProjects = [new Project('Default'), new Project('Yesterday'), new Project('Today'), new Project('Tomorrow')];
+
 function getProjects() {
   if (localStorage.getItem('toDoProjects')) {
     const projects = JSON.parse(localStorage.getItem('toDoProjects'));
@@ -130,11 +131,13 @@ function displayTodoForm() {
     const priority = prioritySelectTag.value;
     const project = projectSelectTag.value;
     createTodo(title, date, description, priority, project);
+    // eslint-disable-next-line no-use-before-define
+    start();
   });
 
   const cancelTodoBtn = buttons.appendChild(document.createElement('button'));
   cancelTodoBtn.setAttribute('class', 'btn btn-danger cancel-todo');
-  cancelTodoBtn.innerHTML = 'Cancel';
+  cancelTodoBtn.innerHTtestML = 'Cancel';
   cancelTodoBtn.addEventListener('click', displayProjects);
 }
 
@@ -247,6 +250,7 @@ function displayTodos() {
     });
   }
 }
+
 function start() {
   clearContent(container);
   displayNav();
@@ -329,6 +333,7 @@ function displayProjectForm() {
   cancelBtn.addEventListener('click', start);
   submitBtn.addEventListener('click', () => {
     project.createProject(nameInput);
+    start();
   });
 }
 
