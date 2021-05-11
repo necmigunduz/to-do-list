@@ -131,6 +131,7 @@ function displayTodoForm() {
     const priority = prioritySelectTag.value;
     const project = projectSelectTag.value;
     createTodo(title, date, description, priority, project);
+    start();
   });
 
   const cancelTodoBtn = buttons.appendChild(document.createElement('button'));

@@ -39,7 +39,6 @@ function updateStatus(projects, project, id) {
   localStorage.toDoProjects = JSON.stringify(projects);
 }
 
-// const todoModule = (() => {
 function createTodo(title, date, description, priority, project) {
   if (title !== '' && description !== '' && priority !== '' && project !== '' && date !== '') {
     const projects = getProjects();
@@ -47,7 +46,6 @@ function createTodo(title, date, description, priority, project) {
     const newTodo = new Todo(title, date, description, priority, project);
     projects[index].todos.push(newTodo);
     localStorage.toDoProjects = JSON.stringify(projects);
-    start();
   };
 };
 

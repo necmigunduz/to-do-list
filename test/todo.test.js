@@ -14,6 +14,7 @@ describe('updateTodo', () => {
 
 let projects = initStart.getProjects();
 let projectExample = new project.Project('projectExample');
+
 let todoExample2 = new todo.Todo('title3','May3rd, 2021','description3','medium');
 projectExample.todos.push(todoExample2,todoExample1);
 
@@ -24,4 +25,20 @@ describe('removeTodo', () => {
     })
 })
 
+describe('updateStatus', () => {
+    it('It should update a status', () => {
+        todo.updateStatus(projects, projectExample, projectExample.todos[0].id);
+        expect(projectExample.todos[0].status).toEqual(true)
+    })
+})
 
+let projectExample2 = new project.Project('projectExample2');
+projects.push(projectExample2)
+describe('createTodo', () => {
+    it('It should create a todo', () => {
+        let newTodo = todo.createTodo('title', 'april 2nd 2022', 'description', 'High', 'projectExample2');
+        projects = initStart.getProjects()
+        expect(projects[projects.length-1].todos[0].title).toBe('title')
+        
+    })
+})
