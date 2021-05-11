@@ -9,6 +9,7 @@ import {
 const container = document.getElementById('content');
 
 const predefinedProjects = [new Project('Default'), new Project('Yesterday'), new Project('Today'), new Project('Tomorrow')];
+
 function getProjects() {
   if (localStorage.getItem('toDoProjects')) {
     const projects = JSON.parse(localStorage.getItem('toDoProjects'));
@@ -134,7 +135,7 @@ function displayTodoForm() {
 
   const cancelTodoBtn = buttons.appendChild(document.createElement('button'));
   cancelTodoBtn.setAttribute('class', 'btn btn-danger cancel-todo');
-  cancelTodoBtn.innerHTML = 'Cancel';
+  cancelTodoBtn.innerHTtestML = 'Cancel';
   cancelTodoBtn.addEventListener('click', displayProjects);
 }
 
@@ -247,6 +248,7 @@ function displayTodos() {
     });
   }
 }
+
 function start() {
   clearContent(container);
   displayNav();
