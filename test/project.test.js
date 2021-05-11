@@ -4,7 +4,8 @@ const project = require('../src/project');
 const target = document.createElement('input');
 target.setAttribute('type','text');
 target.value = 'Jest-test';
-let projects =  initStart.getProjects()
+let projects =  initStart.getProjects();
+
 describe('createProject', ()=>{
   it('Creates a new Project', ()=>{
     let newProject = project.projectModule.createProject(target)
@@ -12,7 +13,6 @@ describe('createProject', ()=>{
   })
 })
 
-let len = projects.length
 describe('removeProject', ()=>{
 
   it('Removes a new Project', ()=>{

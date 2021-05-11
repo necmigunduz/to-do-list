@@ -10,7 +10,7 @@ class Todo {
     this.project = project;
     this.id = Date.now().toString();
     this.status = false;
-  }
+  };
 
   updateTodo(title, date, description, priority) {
     this.title = title;
@@ -18,13 +18,14 @@ class Todo {
     this.description = description;
     this.priority = priority;
     return this;
-  }
+  };
 }
 
 function removeTodo(projects, project, todoId) {
   project.todos = project.todos.filter((x) => x.id !== todoId);
   localStorage.toDoProjects = JSON.stringify(projects);
-}
+  return project.todos
+};
 
 function updateStatus(projects, project, id) {
   for (let i = 0; i < project.todos.length; i += 1) {
@@ -33,7 +34,7 @@ function updateStatus(projects, project, id) {
     } else if (project.todos[i].id === id && project.todos[i].status === false) {
       project.todos[i].status = true;
     }
-  }
+  };
 
   localStorage.toDoProjects = JSON.stringify(projects);
 }
@@ -47,11 +48,9 @@ function createTodo(title, date, description, priority, project) {
     projects[index].todos.push(newTodo);
     localStorage.toDoProjects = JSON.stringify(projects);
     start();
-  }
-}
-// })();
+  };
+};
 
-// export default todoModule;
 export {
   Todo, createTodo, removeTodo, updateStatus,
 };
