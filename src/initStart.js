@@ -131,6 +131,7 @@ function displayTodoForm() {
     const priority = prioritySelectTag.value;
     const project = projectSelectTag.value;
     createTodo(title, date, description, priority, project);
+    // eslint-disable-next-line no-use-before-define
     start();
   });
 
@@ -332,7 +333,7 @@ function displayProjectForm() {
   cancelBtn.addEventListener('click', start);
   submitBtn.addEventListener('click', () => {
     project.createProject(nameInput);
-    start()
+    start();
   });
 }
 
