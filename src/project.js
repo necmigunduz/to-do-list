@@ -20,7 +20,7 @@ const projectModule = (() => {
       projects.push(newProject);
       localStorage.toDoProjects = JSON.stringify(projects);
 
-      start();
+      return newProject
     } else {
       alert('Project name already exist or empty');
     }
@@ -32,6 +32,7 @@ const projectModule = (() => {
 function removeProject(projects, project) {
   projects = projects.filter((element) => element.id !== project.id);
   localStorage.toDoProjects = JSON.stringify(projects);
+  return projects
 }
 
 export default projectModule;

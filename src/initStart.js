@@ -331,6 +331,7 @@ function displayProjectForm() {
   cancelBtn.addEventListener('click', start);
   submitBtn.addEventListener('click', () => {
     project.createProject(nameInput);
+    start()
   });
 }
 
